@@ -5,15 +5,65 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:layout_marginVertical="60dp"
+    android:layout_marginHorizontal="40dp">
 
     <TextView
+        android:id="@+id/tv_titulo_tela_inicial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/titulo_tela_inicial"
+        android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_informacoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/insira_suas_informacoes"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_titulo_tela_inicial"
+        android:layout_marginTop="40dp"/>
+
+    <EditText
+        android:id="@+id/et_nome_jogador"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/nome_do_jogador"
+        android:inputType="text"
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@id/tv_informacoes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="50dp"
+        android:paddingHorizontal="10dp"/>
+
+    <ImageView
+        android:id="@+id/iv_avatar"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
+        android:src="@drawable/ic_launcher_foreground"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/avatar_do_jogador"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/et_nome_jogador"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp"/>
+
+    <Button
+        android:id="@+id/btn_selecionar_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/selecionar_avatar"
+        app:layout_constraintTop_toBottomOf="@id/iv_avatar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

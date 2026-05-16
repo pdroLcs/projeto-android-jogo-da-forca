@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Projeto Jogo da Forca</string>
+    <string name="nome">Nome:</string>
+    <string name="nome_do_jogador">Nome do jogador</string>
+    <string name="titulo_tela_inicial">Jogo da Forca</string>
+    <string name="selecionar_avatar">Selecionar Avatar</string>
+    <string name="avatar_do_jogador">Avatar do jogador</string>
+    <string name="insira_suas_informacoes">Insira suas informações</string>
 </resources>
