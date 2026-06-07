@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private ActivityResultLauncher<String> selecionarImgagem = registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
+    private ActivityResultLauncher<String> selecionarImagem = registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
         if (uri != null) {
             avatarUri = uri;
             ivAvatar.setImageURI(uri);
@@ -59,20 +59,20 @@ public class MainActivity extends AppCompatActivity {
         btnJogar = findViewById(R.id.btn_jogar);
         ivAvatar = findViewById(R.id.iv_selecionar_avatar);
         btnSelecionarAvatar.setOnClickListener(v -> {
-            selecionarImgagem.launch("image/*");
+            selecionarImagem.launch("image/*");
         });
         btnJogar.setOnClickListener(v -> {
             if (etNomeJogador.getText().toString().isBlank()) {
                 Toast.makeText(this, "Digite um nome válido", LENGTH_LONG).show();
             } else if (avatarUri == null) {
-                mostratAlertDialog();
+                mostrarAlertDialog();
             } else {
                 iniciarJogo();
             }
         });
     }
 
-    private void mostratAlertDialog() {
+    private void mostrarAlertDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("Avatar não selecionado")
                 .setIcon(android.R.drawable.ic_dialog_alert)
