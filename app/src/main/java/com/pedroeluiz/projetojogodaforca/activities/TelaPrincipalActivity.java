@@ -1,4 +1,4 @@
-package com.pedroeluiz.projetojogodaforca;
+package com.pedroeluiz.projetojogodaforca.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +12,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.pedroeluiz.projetojogodaforca.R;
+import com.pedroeluiz.projetojogodaforca.model.Jogador;
+
 public class TelaPrincipalActivity extends AppCompatActivity {
 
     Intent intent;
@@ -19,6 +22,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     ImageView ivAvatar;
     String nomeJogador;
     Uri avatarUri;
+    Jogador jogador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +38,9 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     }
 
     protected void setup() {
-        intent = getIntent();
-        nomeJogador = intent.getStringExtra("nomeJogador");
-        avatarUri = intent.getParcelableExtra("avatarUri");
+        jogador = (Jogador) getIntent().getSerializableExtra("jogador");
+        nomeJogador = jogador.getNome();
+        avatarUri = Uri.parse(jogador.getAvatarUri());
         tvNomeJogador = findViewById(R.id.tv_nomeJogador);
         ivAvatar = findViewById(R.id.iv_avatar);
         tvNomeJogador.setText(nomeJogador);

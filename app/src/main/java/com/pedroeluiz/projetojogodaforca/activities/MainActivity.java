@@ -1,4 +1,4 @@
-package com.pedroeluiz.projetojogodaforca;
+package com.pedroeluiz.projetojogodaforca.activities;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,13 +15,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.pedroeluiz.projetojogodaforca.R;
+import com.pedroeluiz.projetojogodaforca.model.Jogador;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button btnSelecionarAvatar, btnJogar;
     private ImageView ivAvatar;
     private Uri avatarUri;
     private EditText etNomeJogador;
-
+    private Jogador jogador;
     Intent intent;
 
     @Override
@@ -49,14 +52,13 @@ public class MainActivity extends AppCompatActivity {
         btnSelecionarAvatar = findViewById(R.id.btn_selecionar_avatar);
         btnJogar = findViewById(R.id.btn_jogar);
         ivAvatar = findViewById(R.id.iv_selecionar_avatar);
-
         btnSelecionarAvatar.setOnClickListener(v -> {
             selecionarImgagem.launch("image/*");
         });
         btnJogar.setOnClickListener(v -> {
+            jogador = new Jogador(etNomeJogador.getText().toString(), avatarUri.toString());
             intent = new Intent(this, TelaPrincipalActivity.class);
-            intent.putExtra("nomeJogador", String.valueOf(etNomeJogador.getText()));
-            intent.putExtra("avatarUri", avatarUri);
+            intent.putExtra("jogador", jogador);
             startActivity(intent);
         });
     }
