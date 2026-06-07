@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private Uri avatarUri;
     private EditText etNomeJogador;
     private Jogador jogador;
+    private String nomeJogador;
     Intent intent;
 
     @Override
@@ -58,11 +59,12 @@ public class MainActivity extends AppCompatActivity {
         btnSelecionarAvatar = findViewById(R.id.btn_selecionar_avatar);
         btnJogar = findViewById(R.id.btn_jogar);
         ivAvatar = findViewById(R.id.iv_selecionar_avatar);
+        nomeJogador = etNomeJogador.getText().toString();
         btnSelecionarAvatar.setOnClickListener(v -> {
             selecionarImagem.launch("image/*");
         });
         btnJogar.setOnClickListener(v -> {
-            if (etNomeJogador.getText().toString().isBlank()) {
+            if (nomeJogador.isBlank()) {
                 Toast.makeText(this, "Digite um nome válido", LENGTH_LONG).show();
             } else if (avatarUri == null) {
                 mostrarAlertDialog();
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void iniciarJogo() {
-        jogador = new Jogador(etNomeJogador.getText().toString().trim(), avatarUri == null ? null : avatarUri.toString());
+        jogador = new Jogador(nomeJogador.trim(), avatarUri == null ? null : avatarUri.toString());
         intent = new Intent(this, TelaPrincipalActivity.class);
         intent.putExtra("jogador", jogador);
         startActivity(intent);
