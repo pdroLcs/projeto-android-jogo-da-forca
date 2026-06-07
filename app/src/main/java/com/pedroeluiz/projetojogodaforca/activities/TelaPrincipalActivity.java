@@ -37,13 +37,15 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     }
 
     protected void setup() {
+        ivAvatar = findViewById(R.id.iv_avatar);
+        tvNomeJogador = findViewById(R.id.tv_nomeJogador);
         jogador = (Jogador) getIntent().getSerializableExtra("jogador");
+        tvNomeJogador.setText(jogador.getNome());
         if (jogador.getAvatarUri() != null) {
             avatarUri = Uri.parse(jogador.getAvatarUri());
+            ivAvatar.setImageURI(avatarUri);
+        } else {
+            ivAvatar.setImageResource(android.R.drawable.sym_def_app_icon);
         }
-        tvNomeJogador = findViewById(R.id.tv_nomeJogador);
-        ivAvatar = findViewById(R.id.iv_avatar);
-        tvNomeJogador.setText(jogador.getNome());
-        ivAvatar.setImageURI(avatarUri);
     }
 }
