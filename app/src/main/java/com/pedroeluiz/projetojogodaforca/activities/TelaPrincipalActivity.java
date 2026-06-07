@@ -40,7 +40,9 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     protected void setup() {
         jogador = (Jogador) getIntent().getSerializableExtra("jogador");
         nomeJogador = jogador.getNome();
-        avatarUri = Uri.parse(jogador.getAvatarUri());
+        if (jogador.getAvatarUri() != null) {
+            avatarUri = Uri.parse(jogador.getAvatarUri());
+        }
         tvNomeJogador = findViewById(R.id.tv_nomeJogador);
         ivAvatar = findViewById(R.id.iv_avatar);
         tvNomeJogador.setText(nomeJogador);

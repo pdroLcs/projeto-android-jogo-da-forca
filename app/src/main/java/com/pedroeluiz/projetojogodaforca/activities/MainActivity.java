@@ -1,11 +1,17 @@
 package com.pedroeluiz.projetojogodaforca.activities;
 
+import static android.widget.Toast.LENGTH_LONG;
+import static android.widget.Toast.LENGTH_SHORT;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
@@ -56,10 +62,40 @@ public class MainActivity extends AppCompatActivity {
             selecionarImgagem.launch("image/*");
         });
         btnJogar.setOnClickListener(v -> {
-            jogador = new Jogador(etNomeJogador.getText().toString(), avatarUri.toString());
-            intent = new Intent(this, TelaPrincipalActivity.class);
-            intent.putExtra("jogador", jogador);
-            startActivity(intent);
+            if (etNomeJogador.getText().toString().isBlank()) {
+                Toast.makeText(this, "Digite um nome válido", LENGTH_LONG).show();
+            } else if (avatarUri == null) {
+                mostratAlertDialog();
+            } else {
+                iniciarJogo();
+            }
         });
+    }
+
+    private void mostratAlertDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Avatar não selecionado")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage("Deseja iniciar sem um avatar?")
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        iniciarJogo();
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private void iniciarJogo() {
+        jogador = new Jogador(etNomeJogador.getText().toString().trim(), avatarUri == null ? null : avatarUri.toString());
+        intent = new Intent(this, TelaPrincipalActivity.class);
+        intent.putExtra("jogador", jogador);
+        startActivity(intent);
     }
 }
