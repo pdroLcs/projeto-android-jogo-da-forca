@@ -183,6 +183,25 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         if (erros == 6) {
             mostrarDialogDerrota("Você perdeu por enforcamento!");
         }
+        if (palavraSelecionada.equals(tvPalavraSelecionada.getText().toString())) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Você ganhou")
+                    .setMessage("Você ganhou o jogo da forca!")
+                    .setIcon(android.R.drawable.checkbox_on_background)
+                    .setPositiveButton("Reiniciar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            reiniciarJogo();
+                        }
+                    })
+                    .setNegativeButton("Sair", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    })
+                    .show();
+        }
     }
 
     private void mostrarDialogDerrota(String mensagem) {
