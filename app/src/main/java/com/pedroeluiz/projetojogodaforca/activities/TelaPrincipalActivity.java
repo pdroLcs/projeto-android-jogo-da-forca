@@ -30,7 +30,7 @@ import java.util.Random;
 public class TelaPrincipalActivity extends AppCompatActivity {
 
     Intent intent;
-    TextView tvNomeJogador, tvTempo, tvPalavraSelecionada;
+    TextView tvNomeJogador, tvTempo, tvPalavraSelecionada, tvLetrasSelecionadas;
     ImageView ivAvatar, ivForca;
     Uri avatarUri;
     Jogador jogador;
@@ -81,6 +81,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         ivForca = findViewById(R.id.iv_forca);
         ivForca.setImageResource(imagens[erros]);
         tvNomeJogador = findViewById(R.id.tv_nomeJogador);
+        tvLetrasSelecionadas = findViewById(R.id.tv_letras_selecionadas);
         tvPalavraSelecionada = findViewById(R.id.tv_palavra_selecionada);
         tvTempo = findViewById(R.id.tv_tempo);
         jogador = (Jogador) getIntent().getSerializableExtra("jogador");
@@ -175,6 +176,8 @@ public class TelaPrincipalActivity extends AppCompatActivity {
             ivForca.setImageResource(imagens[erros]);
         }
         etLetra.setText("");
+        letrasEscolhidas.add(letra);
+        tvLetrasSelecionadas.append(letra + " | ");
     }
 
     @Override
