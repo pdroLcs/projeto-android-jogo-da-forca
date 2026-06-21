@@ -17,11 +17,16 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.pedroeluiz.projetojogodaforca.R;
 import com.pedroeluiz.projetojogodaforca.model.Jogador;
+import com.pedroeluiz.projetojogodaforca.model.Palavra;
+import com.pedroeluiz.projetojogodaforca.repository.PalavraRepository;
+
+import java.util.List;
+import java.util.Random;
 
 public class TelaPrincipalActivity extends AppCompatActivity {
 
     Intent intent;
-    TextView tvNomeJogador, tvTempo;
+    TextView tvNomeJogador, tvTempo, tvPalavraSelecionada;
     ImageView ivAvatar;
     Uri avatarUri;
     Jogador jogador;
@@ -41,6 +46,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tela_principal);
         setup();
         iniciarCronometro();
+        mostrarPalavra();
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -51,6 +57,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     protected void setup() {
         ivAvatar = findViewById(R.id.iv_avatar);
         tvNomeJogador = findViewById(R.id.tv_nomeJogador);
+        tvPalavraSelecionada = findViewById(R.id.tv_palavra_selecionada);
         tvTempo = findViewById(R.id.tv_tempo);
         jogador = (Jogador) getIntent().getSerializableExtra("jogador");
         tvNomeJogador.setText(jogador.getNome());
@@ -103,6 +110,21 @@ public class TelaPrincipalActivity extends AppCompatActivity {
             }
         });
         tempoThread.start();
+    }
+
+    private String selecionarPalavra() {
+        PalavraRepository palavraRepository = new PalavraRepository();
+        List<Palavra> palavras = palavraRepository.carregarPalavras(this);
+        return palavras.get(new Random().nextInt(palavras.size())).getPalavra();
+    }
+
+    private void mostrarPalavra() {
+        String palavraSelecionada = selecionarPalavra();
+        StringBuilder palavraForca = new StringBuilder();
+        for (int i = 0; i < palavraSelecionada.length(); i++) {
+            palavraForca.append('*');
+        }
+        tvPalavraSelecionada.setText(palavraForca.toString());
     }
 
     @Override
