@@ -28,13 +28,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_palavra" />
-
-    <Button
-        android:id="@+id/btn_voltar"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:text="@string/voltar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_adicionar" />
 </androidx.constraintlayout.widget.ConstraintLayout>
