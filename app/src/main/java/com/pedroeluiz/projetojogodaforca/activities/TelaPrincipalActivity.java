@@ -23,6 +23,7 @@ import com.pedroeluiz.projetojogodaforca.model.Jogador;
 import com.pedroeluiz.projetojogodaforca.model.Palavra;
 import com.pedroeluiz.projetojogodaforca.repository.PalavraRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -46,7 +47,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private int erros = 0;
     private String palavraSelecionada = "";
     private StringBuilder palavraForca = new StringBuilder();
-
+    private List<Character> letrasEscolhidas = new ArrayList<>();
 
     private int[] imagens = {
             R.drawable.forca0,
@@ -150,7 +151,15 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     }
 
     public void atualizarForca(View v) {
+        if (etLetra == null || etLetra.getText().toString().isBlank()) {
+            Toast.makeText(this, "Insira uma letra!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         char letra = etLetra.getText().toString().trim().toUpperCase().charAt(0);
+        if (letrasEscolhidas.contains(letra)) {
+            Toast.makeText(this, "Essa letra ja foi escolhida!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         tvPalavraSelecionada.setText(tvPalavraSelecionada.getText().toString());
         if (palavraSelecionada.contains(Character.toString(letra))) {
             for (int i = 0; i < palavraSelecionada.length(); i++) {
@@ -165,6 +174,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
             erros++;
             ivForca.setImageResource(imagens[erros]);
         }
+        etLetra.setText("");
     }
 
     @Override
