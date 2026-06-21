@@ -1,5 +1,7 @@
 package com.pedroeluiz.projetojogodaforca.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -129,7 +131,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
                 if (tempoRestante <= 0 && rodando) {
                     rodando = false;
                     handler.post(() ->
-                            Toast.makeText(TelaPrincipalActivity.this, "Tempo esgotado!", Toast.LENGTH_SHORT).show());
+                            mostrarDialogDerrota("Tempo esgotado"));
                     break;
                 }
             }
@@ -178,7 +180,52 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         etLetra.setText("");
         letrasEscolhidas.add(letra);
         tvLetrasSelecionadas.append(letra + " | ");
+        if (erros == 6) {
+            mostrarDialogDerrota("Você perdeu por enforcamento!");
+        }
     }
+
+    private void mostrarDialogDerrota(String mensagem) {
+        new AlertDialog.Builder(this)
+                .setTitle("Você perdeu!")
+                .setMessage(mensagem)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("Reiniciar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        reiniciarJogo();
+                    }
+                })
+                .setNegativeButton("Sair", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .show();
+    }
+
+    private void reiniciarJogo() {
+         erros = 0;
+         letrasEscolhidas = new ArrayList<>();
+         palavraForca = new StringBuilder();
+
+         ivForca.setImageResource(imagens[erros]);
+         tvLetrasSelecionadas.setText("");
+
+         mostrarPalavra();
+
+         rodando = false;
+         if (tempoThread != null) {
+             tempoThread.interrupt();
+             try {
+                 tempoThread.join(1000);
+             } catch (InterruptedException e) {
+                 Thread.currentThread().interrupt();
+             }
+         }
+         iniciarCronometro();
+     }
 
     @Override
     protected void onPause() {
