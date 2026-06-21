@@ -27,7 +27,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
     Intent intent;
     TextView tvNomeJogador, tvTempo, tvPalavraSelecionada;
-    ImageView ivAvatar;
+    ImageView ivAvatar, ivForca;
     Uri avatarUri;
     Jogador jogador;
     Thread tempoThread;
@@ -38,6 +38,17 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private long tempoInicial = 0;
     private long tempoCongelado = 0;
     private long tempoEntradoBackground = 0;
+    private int erros = 0;
+
+    private int[] imagens = {
+            R.drawable.forca0,
+            R.drawable.forca1,
+            R.drawable.forca2,
+            R.drawable.forca3,
+            R.drawable.forca4,
+            R.drawable.forca5,
+            R.drawable.forca6
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +67,8 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
     protected void setup() {
         ivAvatar = findViewById(R.id.iv_avatar);
+        ivForca = findViewById(R.id.iv_forca);
+        ivForca.setImageResource(imagens[erros]);
         tvNomeJogador = findViewById(R.id.tv_nomeJogador);
         tvPalavraSelecionada = findViewById(R.id.tv_palavra_selecionada);
         tvTempo = findViewById(R.id.tv_tempo);
