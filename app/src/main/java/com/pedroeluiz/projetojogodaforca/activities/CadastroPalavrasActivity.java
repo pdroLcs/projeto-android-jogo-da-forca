@@ -48,5 +48,7 @@ public class CadastroPalavrasActivity extends AppCompatActivity {
         palavraRepository = new PalavraRepository();
         etPalavra = findViewById(R.id.et_palavra);
         palavras = palavraRepository.carregarPalavras(this);
+        Button btnVoltar = findViewById(R.id.btn_voltar);
+        btnVoltar.setOnClickListener(v -> finish());
     }
 }
