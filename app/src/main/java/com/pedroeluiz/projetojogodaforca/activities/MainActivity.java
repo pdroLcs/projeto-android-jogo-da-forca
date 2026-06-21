@@ -26,7 +26,7 @@ import com.pedroeluiz.projetojogodaforca.model.Jogador;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btnSelecionarAvatar, btnJogar;
+    private Button btnSelecionarAvatar, btnJogar, btnTelaAdicionarPalavra;
     private ImageView ivAvatar;
     private Uri avatarUri;
     private EditText etNomeJogador;
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         etNomeJogador = findViewById(R.id.et_nome_jogador);
         btnSelecionarAvatar = findViewById(R.id.btn_selecionar_avatar);
         btnJogar = findViewById(R.id.btn_jogar);
+        btnTelaAdicionarPalavra = findViewById(R.id.btn_tela_adicionar_palavra);
         ivAvatar = findViewById(R.id.iv_selecionar_avatar);
         btnSelecionarAvatar.setOnClickListener(v -> {
             selecionarImagem.launch("image/*");
@@ -69,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 iniciarJogo();
             }
+        });
+        btnTelaAdicionarPalavra.setOnClickListener(v -> {
+            startActivity(new Intent(this, CadastroPalavrasActivity.class));
         });
     }
 
