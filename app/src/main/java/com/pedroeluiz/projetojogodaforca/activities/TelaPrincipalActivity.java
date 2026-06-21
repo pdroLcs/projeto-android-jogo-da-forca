@@ -5,6 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,8 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     Jogador jogador;
     Thread tempoThread;
     Handler handler;
+    EditText etLetra;
+    Button btnAtualizarForca;
 
     private boolean rodando = true;
     private int tempoRestante = 180;
@@ -39,6 +44,9 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private long tempoCongelado = 0;
     private long tempoEntradoBackground = 0;
     private int erros = 0;
+    private String palavraSelecionada = "";
+    private StringBuilder palavraForca = new StringBuilder();
+
 
     private int[] imagens = {
             R.drawable.forca0,
@@ -66,6 +74,8 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     }
 
     protected void setup() {
+        etLetra = findViewById(R.id.et_letra);
+        btnAtualizarForca = findViewById(R.id.btn_atualizar_forca);
         ivAvatar = findViewById(R.id.iv_avatar);
         ivForca = findViewById(R.id.iv_forca);
         ivForca.setImageResource(imagens[erros]);
@@ -132,12 +142,29 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     }
 
     private void mostrarPalavra() {
-        String palavraSelecionada = selecionarPalavra();
-        StringBuilder palavraForca = new StringBuilder();
+        palavraSelecionada = selecionarPalavra();
         for (int i = 0; i < palavraSelecionada.length(); i++) {
             palavraForca.append('*');
         }
         tvPalavraSelecionada.setText(palavraForca.toString());
+    }
+
+    public void atualizarForca(View v) {
+        char letra = etLetra.getText().toString().trim().toUpperCase().charAt(0);
+        tvPalavraSelecionada.setText(tvPalavraSelecionada.getText().toString());
+        if (palavraSelecionada.contains(Character.toString(letra))) {
+            for (int i = 0; i < palavraSelecionada.length(); i++) {
+                if (palavraSelecionada.charAt(i) == letra) {
+                    palavraForca.setCharAt(i, palavraSelecionada.charAt(i));
+                } else if (palavraSelecionada.charAt(i) == '*') {
+                    palavraForca.setCharAt(i, '*');
+                }
+            }
+            tvPalavraSelecionada.setText(palavraForca);
+        } else {
+            erros++;
+            ivForca.setImageResource(imagens[erros]);
+        }
     }
 
     @Override
