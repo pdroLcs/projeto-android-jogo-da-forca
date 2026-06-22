@@ -57,25 +57,25 @@ public class PalavraRepository {
     private List<Palavra> carregarPalavrasIniciais(Context context) {
         List<Palavra> palavras = new ArrayList<>();
 
-        palavras.add(new Palavra("JAVA"));
+        palavras.add(new Palavra("JAVA", "PROGRAMAÇÃO"));
 
-        palavras.add(new Palavra("ANDROID"));
+        palavras.add(new Palavra("ANDROID", "TECNOLOGIA"));
 
-        palavras.add(new Palavra("KOTLIN"));
+        palavras.add(new Palavra("KOTLIN", "PROGRAMAÇÃO"));
 
-        palavras.add(new Palavra("BANCO"));
+        palavras.add(new Palavra("BANCO", "TECNOLOGIA"));
 
-        palavras.add(new Palavra("COMPUTADOR"));
+        palavras.add(new Palavra("COMPUTADOR", "INFORMÁTICA"));
 
-        palavras.add(new Palavra("TECLADO"));
+        palavras.add(new Palavra("TECLADO", "INFORMÁTICA"));
 
-        palavras.add(new Palavra("ALGORITMO"));
+        palavras.add(new Palavra("ALGORITMO", "PROGRAMAÇÃO"));
 
-        palavras.add(new Palavra("MOUSE"));
+        palavras.add(new Palavra("MOUSE", "INFORMÁTICA"));
 
-        palavras.add(new Palavra("CELULAR"));
+        palavras.add(new Palavra("CELULAR", "TECNOLOGIA"));
 
-        palavras.add(new Palavra("INTERNET"));
+        palavras.add(new Palavra("INTERNET", "TECNOLOGIA"));
 
         salvarPalavras(context, palavras);
 

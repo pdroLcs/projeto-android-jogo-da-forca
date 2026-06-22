@@ -14,4 +14,5 @@
     <string name="ok">OK</string>
     <string name="sair">Sair</string>
     <string name="reiniciar">Reiniciar</string>
+    <string name="adicionar_categoria">Adicionar categoria</string>
 </resources>

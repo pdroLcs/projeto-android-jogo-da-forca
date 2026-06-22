@@ -32,7 +32,7 @@ import java.util.Random;
 public class TelaPrincipalActivity extends AppCompatActivity {
 
     Intent intent;
-    TextView tvNomeJogador, tvTempo, tvPalavraSelecionada, tvLetrasSelecionadas;
+    TextView tvNomeJogador, tvTempo, tvPalavraSelecionada, tvLetrasSelecionadas, tvCategoria;
     ImageView ivAvatar, ivForca;
     Uri avatarUri;
     Jogador jogador;
@@ -85,6 +85,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         ivForca = findViewById(R.id.iv_forca);
         ivForca.setImageResource(imagens[erros]);
         tvNomeJogador = findViewById(R.id.tv_nomeJogador);
+        tvCategoria = findViewById(R.id.tv_categoria);
         tvLetrasSelecionadas = findViewById(R.id.tv_letras_selecionadas);
         tvPalavraSelecionada = findViewById(R.id.tv_palavra_selecionada);
         tvTempo = findViewById(R.id.tv_tempo);
@@ -146,7 +147,9 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private String selecionarPalavra() {
         PalavraRepository palavraRepository = new PalavraRepository();
         List<Palavra> palavras = palavraRepository.carregarPalavras(this);
-        return palavras.get(new Random().nextInt(palavras.size())).getPalavra();
+        Palavra palavraSelecionada = palavras.get(new Random().nextInt(palavras.size()));
+        tvCategoria.setText("Categoria: " + palavraSelecionada.getCategoria());
+        return palavraSelecionada.getPalavra();
     }
 
     private void mostrarPalavra() {

@@ -20,7 +20,7 @@ import java.util.List;
 
 public class CadastroPalavrasActivity extends AppCompatActivity {
 
-    private EditText etPalavra;
+    private EditText etPalavra, etCategoria;
     PalavraRepository palavraRepository;
     List<Palavra> palavras;
 
@@ -39,8 +39,12 @@ public class CadastroPalavrasActivity extends AppCompatActivity {
 
     public void adicionar(View v) {
         String palavra = etPalavra.getText().toString();
-        boolean adicionou = palavraRepository.adicionarPalavra(this, new Palavra(palavra));
-        if (adicionou) etPalavra.setText("");
+        String categoria = etCategoria.getText().toString();
+        boolean adicionou = palavraRepository.adicionarPalavra(this, new Palavra(palavra, categoria));
+        if (adicionou) {
+            etPalavra.setText("");
+            etCategoria.setText("");
+        }
         String mensagem = adicionou ? "Palavra adicionada!" : "Palavra já existe!";
         Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
     }
@@ -48,6 +52,7 @@ public class CadastroPalavrasActivity extends AppCompatActivity {
     private void setup() {
         palavraRepository = new PalavraRepository();
         etPalavra = findViewById(R.id.et_palavra);
+        etCategoria = findViewById(R.id.et_categoria);
         palavras = palavraRepository.carregarPalavras(this);
         Button btnVoltar = findViewById(R.id.btn_voltar);
         btnVoltar.setOnClickListener(v -> finish());
