@@ -32,7 +32,7 @@ import java.util.Random;
 public class TelaPrincipalActivity extends AppCompatActivity {
 
     Intent intent;
-    TextView tvNomeJogador, tvTempo, tvPalavraSelecionada, tvLetrasSelecionadas, tvCategoria;
+    TextView tvNomeJogador, tvTempo, tvPalavraSelecionada, tvLetrasSelecionadas, tvCategoria, tvPontos;
     ImageView ivAvatar, ivForca;
     Uri avatarUri;
     Jogador jogador;
@@ -47,6 +47,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private long tempoCongelado = 0;
     private long tempoEntradoBackground = 0;
     private int erros = 0;
+    private int pontos = 0;
     private String palavraSelecionada = "";
     private StringBuilder palavraForca = new StringBuilder();
     private List<Character> letrasEscolhidas = new ArrayList<>();
@@ -85,12 +86,14 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         ivForca = findViewById(R.id.iv_forca);
         ivForca.setImageResource(imagens[erros]);
         tvNomeJogador = findViewById(R.id.tv_nomeJogador);
+        tvPontos = findViewById(R.id.tv_pontos);
         tvCategoria = findViewById(R.id.tv_categoria);
         tvLetrasSelecionadas = findViewById(R.id.tv_letras_selecionadas);
         tvPalavraSelecionada = findViewById(R.id.tv_palavra_selecionada);
         tvTempo = findViewById(R.id.tv_tempo);
         jogador = (Jogador) getIntent().getSerializableExtra("jogador");
         tvNomeJogador.setText(jogador.getNome());
+        tvPontos.setText("Pontos: " + pontos);
         handler = new Handler(Looper.getMainLooper());
         if (jogador.getAvatarUri() != null) {
             avatarUri = Uri.parse(jogador.getAvatarUri());
@@ -98,7 +101,11 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         } else {
             ivAvatar.setImageResource(android.R.drawable.sym_def_app_icon);
         }
-        btnReiniciar.setOnClickListener(v -> reiniciarJogo());
+        btnReiniciar.setOnClickListener(v -> {
+            pontos = 0;
+            tvPontos.setText("Pontos: " + pontos);
+            reiniciarJogo();
+        });
         btnSair.setOnClickListener(v -> finish());
     }
 
@@ -191,11 +198,13 @@ public class TelaPrincipalActivity extends AppCompatActivity {
             mostrarDialogDerrota("Você perdeu por enforcamento!");
         }
         if (palavraSelecionada.equals(tvPalavraSelecionada.getText().toString())) {
+            pontos++;
+            tvPontos.setText("Pontos: " + pontos);
             new AlertDialog.Builder(this)
                     .setTitle("Você ganhou")
                     .setMessage("Você ganhou o jogo da forca!")
                     .setIcon(android.R.drawable.checkbox_on_background)
-                    .setPositiveButton("Reiniciar", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Jogar novamente", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             reiniciarJogo();
