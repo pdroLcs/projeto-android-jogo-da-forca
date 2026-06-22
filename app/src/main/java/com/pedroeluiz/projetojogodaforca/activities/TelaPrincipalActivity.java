@@ -39,7 +39,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     Thread tempoThread;
     Handler handler;
     EditText etLetra;
-    Button btnAtualizarForca;
+    Button btnAtualizarForca, btnSair, btnReiniciar;
 
     private boolean rodando = true;
     private int tempoRestante = 180;
@@ -79,6 +79,8 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     protected void setup() {
         etLetra = findViewById(R.id.et_letra);
         btnAtualizarForca = findViewById(R.id.btn_atualizar_forca);
+        btnReiniciar = findViewById(R.id.btn_reiniciar);
+        btnSair = findViewById(R.id.btn_sair);
         ivAvatar = findViewById(R.id.iv_avatar);
         ivForca = findViewById(R.id.iv_forca);
         ivForca.setImageResource(imagens[erros]);
@@ -95,6 +97,8 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         } else {
             ivAvatar.setImageResource(android.R.drawable.sym_def_app_icon);
         }
+        btnReiniciar.setOnClickListener(v -> reiniciarJogo());
+        btnSair.setOnClickListener(v -> finish());
     }
 
     private void iniciarCronometro() {

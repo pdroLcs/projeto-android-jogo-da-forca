@@ -12,4 +12,6 @@
     <string name="adicionar">Adicionar</string>
     <string name="voltar">Voltar</string>
     <string name="ok">OK</string>
+    <string name="sair">Sair</string>
+    <string name="reiniciar">Reiniciar</string>
 </resources>
