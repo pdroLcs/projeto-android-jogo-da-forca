@@ -79,8 +79,7 @@
         android:id="@+id/btn_tela_adicionar_palavra"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/jogar"
+        android:text="@string/adicionar_palavra"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_jogar" />
