@@ -40,6 +40,7 @@ public class CadastroPalavrasActivity extends AppCompatActivity {
     public void adicionar(View v) {
         String palavra = etPalavra.getText().toString();
         boolean adicionou = palavraRepository.adicionarPalavra(this, new Palavra(palavra));
+        if (adicionou) etPalavra.setText("");
         String mensagem = adicionou ? "Palavra adicionada!" : "Palavra já existe!";
         Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
     }
