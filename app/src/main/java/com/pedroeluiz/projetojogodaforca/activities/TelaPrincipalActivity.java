@@ -27,6 +27,7 @@ import com.pedroeluiz.projetojogodaforca.model.Jogador;
 import com.pedroeluiz.projetojogodaforca.model.Palavra;
 import com.pedroeluiz.projetojogodaforca.repository.PalavraRepository;
 import com.pedroeluiz.projetojogodaforca.utils.MusicManager;
+import com.pedroeluiz.projetojogodaforca.utils.SoundManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,8 +154,10 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
                 if (tempoRestante <= 0 && rodando) {
                     rodando = false;
-                    handler.post(() ->
-                            mostrarDialogDerrota("Tempo esgotado"));
+                    handler.post(() -> {
+                        SoundManager.tocarSomDerrota(this);
+                        mostrarDialogDerrota("Tempo esgotado");
+                    });
                     break;
                 }
             }
@@ -215,6 +218,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         letrasEscolhidas.add(letra);
         tvLetrasSelecionadas.append(letra + " | ");
         if (erros == 6) {
+            SoundManager.tocarSomDerrota(this);
             mostrarDialogDerrota("Você perdeu por enforcamento!");
         }
         if (palavraForca.toString().equalsIgnoreCase(palavraSelecionada.getPalavra())) {
@@ -224,6 +228,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
                     String.format("%02d:%02d", tempoRestante / 60, tempoRestante % 60),
                     pontos
             );
+            SoundManager.tocarSomVitoria(this);
             new AlertDialog.Builder(this)
                     .setTitle("Você ganhou")
                     .setMessage("Você ganhou o jogo da forca!")
