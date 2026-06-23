@@ -110,7 +110,7 @@ public class TelaPrincipalActivity extends AppCompatActivity implements SensorEv
             avatarUri = Uri.parse(jogador.getAvatarUri());
             ivAvatar.setImageURI(avatarUri);
         } else {
-            ivAvatar.setImageResource(android.R.drawable.sym_def_app_icon);
+            ivAvatar.setImageResource(R.drawable.shrek);
         }
         btnReiniciar.setOnClickListener(v -> {
             pontos = 0;
@@ -144,8 +144,6 @@ public class TelaPrincipalActivity extends AppCompatActivity implements SensorEv
 
                 tempoRestante = novoTempoRestante;
 
-                int minutos = tempoRestante / 60;
-                int segundos = tempoRestante % 60;
                 handler.post(() -> {
                     infoJogoFragment.atualizarInfo(
                             palavraSelecionada.getCategoria(),
