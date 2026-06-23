@@ -3,6 +3,10 @@ package com.pedroeluiz.projetojogodaforca.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class TelaPrincipalActivity extends AppCompatActivity {
+public class TelaPrincipalActivity extends AppCompatActivity implements SensorEventListener {
 
     Intent intent;
     TextView tvNomeJogador, tvTempo, tvPalavraSelecionada, tvLetrasSelecionadas, tvCategoria, tvPontos;
@@ -56,6 +60,8 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private StringBuilder palavraForca = new StringBuilder();
     private List<Character> letrasEscolhidas = new ArrayList<>();
     private InfoJogoFragment infoJogoFragment;
+    private SensorManager sensorManager;
+    private Sensor sensorAcelerometro, sensorProximidade;
 
     private int[] imagens = {
             R.drawable.forca0,
@@ -83,6 +89,9 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     }
 
     protected void setup() {
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensorAcelerometro = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorProximidade = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         infoJogoFragment = (InfoJogoFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentInfo);
         etLetra = findViewById(R.id.et_letra);
         btnAtualizarForca = findViewById(R.id.btn_atualizar_forca);
@@ -305,6 +314,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
                 Thread.currentThread().interrupt();
             }
         }
+        sensorManager.unregisterListener(this);
     }
 
     @Override
@@ -318,6 +328,8 @@ public class TelaPrincipalActivity extends AppCompatActivity {
             rodando = true;
             criarThreadCronometro();
         }
+        sensorManager.registerListener(this, sensorAcelerometro, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensorProximidade, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -339,5 +351,30 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         MusicManager.activityStopped();
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            float x = sensorEvent.values[0];
+            float y = sensorEvent.values[1];
+            float z = sensorEvent.values[2];
+
+            float aceleracao = (float) Math.sqrt(x*x + y*y + z*z);
+
+            if (aceleracao > 15) {
+                reiniciarJogo();
+            }
+        }
+        if (sensorEvent.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+            if (sensorEvent.values[0] < sensorProximidade.getMaximumRange()) {
+                SoundManager.tocarSomProximidade(this);
+            }
+        }
     }
 }

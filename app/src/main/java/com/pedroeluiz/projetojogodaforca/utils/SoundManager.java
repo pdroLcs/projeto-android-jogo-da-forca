@@ -7,8 +7,7 @@ import com.pedroeluiz.projetojogodaforca.R;
 
 public class SoundManager {
 
-    private static MediaPlayer somVitoria;
-    private static MediaPlayer somDerrota;
+    private static MediaPlayer somVitoria, somDerrota, somProximidade;
 
     public static void tocarSomVitoria(Context context) {
         somVitoria = MediaPlayer.create(context.getApplicationContext(), R.raw.som_de_vitoria);
@@ -20,6 +19,12 @@ public class SoundManager {
         somDerrota = MediaPlayer.create(context.getApplicationContext(), R.raw.som_de_derrota);
         somDerrota.setOnCompletionListener(MediaPlayer::release);
         somDerrota.start();
+    }
+
+    public static void tocarSomProximidade(Context context) {
+        somProximidade = MediaPlayer.create(context.getApplicationContext(), R.raw.faaah);
+        somProximidade.setOnCompletionListener(MediaPlayer::release);
+        somProximidade.start();
     }
 
 }
