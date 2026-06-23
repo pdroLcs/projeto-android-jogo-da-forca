@@ -71,6 +71,9 @@
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="@string/jogar"
+        android:backgroundTint="@color/green"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_selecionar_avatar" />
@@ -80,6 +83,7 @@
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:text="@string/adicionar_palavra"
+        android:backgroundTint="@color/blue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_jogar" />
