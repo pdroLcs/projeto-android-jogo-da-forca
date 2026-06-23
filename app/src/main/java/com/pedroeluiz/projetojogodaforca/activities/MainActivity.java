@@ -23,6 +23,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.pedroeluiz.projetojogodaforca.R;
 import com.pedroeluiz.projetojogodaforca.model.Jogador;
+import com.pedroeluiz.projetojogodaforca.utils.MusicManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         setup();
+        MusicManager.start(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -101,5 +103,17 @@ public class MainActivity extends AppCompatActivity {
         intent = new Intent(this, TelaPrincipalActivity.class);
         intent.putExtra("jogador", jogador);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MusicManager.activityStarted();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MusicManager.activityStopped();
     }
 }

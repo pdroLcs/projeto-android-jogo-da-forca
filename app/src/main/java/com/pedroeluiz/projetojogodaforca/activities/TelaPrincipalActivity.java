@@ -24,6 +24,7 @@ import com.pedroeluiz.projetojogodaforca.R;
 import com.pedroeluiz.projetojogodaforca.model.Jogador;
 import com.pedroeluiz.projetojogodaforca.model.Palavra;
 import com.pedroeluiz.projetojogodaforca.repository.PalavraRepository;
+import com.pedroeluiz.projetojogodaforca.utils.MusicManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -298,5 +299,17 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         if (tempoThread != null) {
             tempoThread.interrupt();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MusicManager.activityStarted();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MusicManager.activityStopped();
     }
 }

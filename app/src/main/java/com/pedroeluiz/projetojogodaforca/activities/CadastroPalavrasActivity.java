@@ -15,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.pedroeluiz.projetojogodaforca.R;
 import com.pedroeluiz.projetojogodaforca.model.Palavra;
 import com.pedroeluiz.projetojogodaforca.repository.PalavraRepository;
+import com.pedroeluiz.projetojogodaforca.utils.MusicManager;
 
 import java.util.List;
 
@@ -56,5 +57,17 @@ public class CadastroPalavrasActivity extends AppCompatActivity {
         palavras = palavraRepository.carregarPalavras(this);
         Button btnVoltar = findViewById(R.id.btn_voltar);
         btnVoltar.setOnClickListener(v -> finish());
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        MusicManager.activityStarted();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        MusicManager.activityStopped();
     }
 }
