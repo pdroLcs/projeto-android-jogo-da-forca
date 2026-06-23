@@ -107,5 +107,6 @@
         android:layout_height="wrap_content"
         android:name="com.pedroeluiz.projetojogodaforca.fragment.InfoJogoFragment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="@id/iv_forca"
+        app:layout_constraintStart_toEndOf="@id/iv_forca"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
