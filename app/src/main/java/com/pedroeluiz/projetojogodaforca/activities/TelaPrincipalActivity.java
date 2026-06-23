@@ -19,8 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 
 import com.pedroeluiz.projetojogodaforca.R;
+import com.pedroeluiz.projetojogodaforca.fragment.InfoJogoFragment;
 import com.pedroeluiz.projetojogodaforca.model.Jogador;
 import com.pedroeluiz.projetojogodaforca.model.Palavra;
 import com.pedroeluiz.projetojogodaforca.repository.PalavraRepository;
@@ -49,9 +51,10 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     private long tempoEntradoBackground = 0;
     private int erros = 0;
     private int pontos = 0;
-    private String palavraSelecionada = "";
+    private Palavra palavraSelecionada;
     private StringBuilder palavraForca = new StringBuilder();
     private List<Character> letrasEscolhidas = new ArrayList<>();
+    private InfoJogoFragment infoJogoFragment;
 
     private int[] imagens = {
             R.drawable.forca0,
@@ -79,6 +82,7 @@ public class TelaPrincipalActivity extends AppCompatActivity {
     }
 
     protected void setup() {
+        infoJogoFragment = (InfoJogoFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentInfo);
         etLetra = findViewById(R.id.et_letra);
         btnAtualizarForca = findViewById(R.id.btn_atualizar_forca);
         btnReiniciar = findViewById(R.id.btn_reiniciar);
@@ -87,14 +91,10 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         ivForca = findViewById(R.id.iv_forca);
         ivForca.setImageResource(imagens[erros]);
         tvNomeJogador = findViewById(R.id.tv_nomeJogador);
-        tvPontos = findViewById(R.id.tv_pontos);
-        tvCategoria = findViewById(R.id.tv_categoria);
         tvLetrasSelecionadas = findViewById(R.id.tv_letras_selecionadas);
         tvPalavraSelecionada = findViewById(R.id.tv_palavra_selecionada);
-        tvTempo = findViewById(R.id.tv_tempo);
         jogador = (Jogador) getIntent().getSerializableExtra("jogador");
         tvNomeJogador.setText(jogador.getNome());
-        tvPontos.setText("Pontos: " + pontos);
         handler = new Handler(Looper.getMainLooper());
         if (jogador.getAvatarUri() != null) {
             avatarUri = Uri.parse(jogador.getAvatarUri());
@@ -104,7 +104,11 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         }
         btnReiniciar.setOnClickListener(v -> {
             pontos = 0;
-            tvPontos.setText("Pontos: " + pontos);
+            infoJogoFragment.atualizarInfo(
+                    palavraSelecionada.getCategoria(),
+                    String.format("%02d:%02d", tempoRestante / 60, tempoRestante % 60),
+                    pontos
+            );
             reiniciarJogo();
         });
         btnSair.setOnClickListener(v -> finish());
@@ -132,7 +136,13 @@ public class TelaPrincipalActivity extends AppCompatActivity {
 
                 int minutos = tempoRestante / 60;
                 int segundos = tempoRestante % 60;
-                handler.post(() -> tvTempo.setText(String.format("%02d:%02d", minutos, segundos)));
+                handler.post(() -> {
+                    infoJogoFragment.atualizarInfo(
+                            palavraSelecionada.getCategoria(),
+                            String.format("%02d:%02d", tempoRestante / 60, tempoRestante % 60),
+                            pontos
+                    );
+                });
 
                 try {
                     Thread.sleep(1000);
@@ -152,17 +162,26 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         tempoThread.start();
     }
 
-    private String selecionarPalavra() {
+    private Palavra selecionarPalavra() {
         PalavraRepository palavraRepository = new PalavraRepository();
         List<Palavra> palavras = palavraRepository.carregarPalavras(this);
         Palavra palavraSelecionada = palavras.get(new Random().nextInt(palavras.size()));
-        tvCategoria.setText("Categoria: " + palavraSelecionada.getCategoria());
-        return palavraSelecionada.getPalavra();
+        infoJogoFragment.atualizarInfo(
+                palavraSelecionada.getCategoria(),
+                String.format("%02d:%02d", tempoRestante / 60, tempoRestante % 60),
+                pontos
+        );
+        return palavraSelecionada;
     }
 
     private void mostrarPalavra() {
         palavraSelecionada = selecionarPalavra();
-        for (int i = 0; i < palavraSelecionada.length(); i++) {
+        infoJogoFragment.atualizarInfo(
+                palavraSelecionada.getCategoria(),
+                String.format("%02d:%02d", tempoRestante / 60, tempoRestante % 60),
+                pontos
+        );
+        for (int i = 0; i < palavraSelecionada.getPalavra().length(); i++) {
             palavraForca.append('*');
         }
         tvPalavraSelecionada.setText(palavraForca.toString());
@@ -179,11 +198,11 @@ public class TelaPrincipalActivity extends AppCompatActivity {
             return;
         }
         tvPalavraSelecionada.setText(tvPalavraSelecionada.getText().toString());
-        if (palavraSelecionada.contains(Character.toString(letra))) {
-            for (int i = 0; i < palavraSelecionada.length(); i++) {
-                if (palavraSelecionada.charAt(i) == letra) {
-                    palavraForca.setCharAt(i, palavraSelecionada.charAt(i));
-                } else if (palavraSelecionada.charAt(i) == '*') {
+        if (palavraSelecionada.getPalavra().contains(Character.toString(letra))) {
+            for (int i = 0; i < palavraSelecionada.getPalavra().length(); i++) {
+                if (palavraSelecionada.getPalavra().charAt(i) == letra) {
+                    palavraForca.setCharAt(i, palavraSelecionada.getPalavra().charAt(i));
+                } else if (palavraSelecionada.getPalavra().charAt(i) == '*') {
                     palavraForca.setCharAt(i, '*');
                 }
             }
@@ -198,9 +217,13 @@ public class TelaPrincipalActivity extends AppCompatActivity {
         if (erros == 6) {
             mostrarDialogDerrota("Você perdeu por enforcamento!");
         }
-        if (palavraSelecionada.equals(tvPalavraSelecionada.getText().toString())) {
+        if (palavraForca.toString().equalsIgnoreCase(palavraSelecionada.getPalavra())) {
             pontos++;
-            tvPontos.setText("Pontos: " + pontos);
+            infoJogoFragment.atualizarInfo(
+                    palavraSelecionada.getCategoria(),
+                    String.format("%02d:%02d", tempoRestante / 60, tempoRestante % 60),
+                    pontos
+            );
             new AlertDialog.Builder(this)
                     .setTitle("Você ganhou")
                     .setMessage("Você ganhou o jogo da forca!")
